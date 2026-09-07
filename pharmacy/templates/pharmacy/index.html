@@ -1,0 +1,175 @@
+{% extends "pharmacy/layout.html" %}
+
+{% block title %}Catalog - PharmaCatalog{% endblock %}
+
+{% block body %}
+<div class="row mb-4 g-2">
+    <div class="col-md-8">
+        <div class="input-group">
+            <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+            <input type="text" id="searchInput" class="form-control form-control-lg" placeholder="Search by name, brand, or active ingredient (e.g. Paracetamol)...">
+        </div>
+    </div>
+    <div class="col-md-4">
+        <select id="categorySelect" class="form-select form-select-lg">
+            <option value="">All Categories</option>
+            {% for cat in categories %}
+                <option value="{{ cat.id }}">{{ cat.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+<div id="productsGrid" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
+    <!-- يتم التعبئة تلقائياً عبر JavaScript -->
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    function getCSRFToken() {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, 10) === ('csrftoken=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(10));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        fetchProducts();
+
+        document.getElementById("searchInput").addEventListener("input", fetchProducts);
+        document.getElementById("categorySelect").addEventListener("change", fetchProducts);
+    });
+
+    function fetchProducts() {
+        const query = document.getElementById("searchInput").value;
+        const category = document.getElementById("categorySelect").value;
+        const grid = document.getElementById("productsGrid");
+
+        fetch(`/api/search/?q=${encodeURIComponent(query)}&category=${category}`)
+            .then(res => res.json())
+            .then(data => {
+                grid.innerHTML = "";
+                if (data.products.length === 0) {
+                    grid.innerHTML = `<div class="col-12 text-center py-5 text-muted"><h4>No products found</h4></div>`;
+                    return;
+                }
+
+                data.products.forEach(p => {
+                    const rxBadge = p.requires_prescription 
+                        ? `<span class="badge bg-danger ms-1">Rx Required</span>` 
+                        : '';
+                    const ingredientText = p.active_ingredient 
+                        ? `<p class="card-text small text-primary mb-1"><i class="bi bi-activity"></i> ${p.active_ingredient}</p>` 
+                        : '';
+                    const altButton = p.active_ingredient 
+                        ? `<button class="btn btn-sm btn-outline-success w-100 mb-2" onclick="showAlternatives(${p.id})"><i class="bi bi-arrow-repeat"></i> Alternatives</button>` 
+                        : '';
+
+                    grid.innerHTML += `
+                        <div class="col">
+                            <div class="card h-100 product-card shadow-sm border-0">
+                                <img src="${p.image_url || 'https://via.placeholder.com/180'}" class="card-img-top product-img p-2" alt="${p.name}">
+                                <div class="card-body d-flex flex-column">
+                                    <div class="mb-1"><span class="badge bg-secondary">${p.category}</span> ${rxBadge}</div>
+                                    <h6 class="card-title fw-bold mb-1">${p.name}</h6>
+                                    <small class="text-muted mb-2">${p.brand}</small>
+                                    ${ingredientText}
+                                    <div class="mt-auto">
+                                        <div class="fw-bold fs-5 mb-2 text-dark">$${p.price.toFixed(2)}</div>
+                                        ${altButton}
+                                        <button class="btn btn-primary btn-sm w-100" onclick="addToCart(${p.id})">
+                                            <i class="bi bi-plus-circle me-1"></i> Reserve
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            });
+    }
+
+    function showAlternatives(productId) {
+        fetch(`/api/alternatives/${productId}/`)
+            .then(res => res.json())
+            .then(data => {
+                const list = document.getElementById("alternativesList");
+                list.innerHTML = "";
+
+                if (data.alternatives.length === 0) {
+                    list.innerHTML = `<div class="col-12 text-center py-3 text-muted">No direct alternative products found.</div>`;
+                } else {
+                    data.alternatives.forEach(a => {
+                        list.innerHTML += `
+                            <div class="col-md-6">
+                                <div class="card p-2 d-flex flex-row align-items-center">
+                                    <img src="${a.image_url || 'https://via.placeholder.com/80'}" style="width: 60px; height: 60px; object-fit: contain;">
+                                    <div class="ms-3 flex-grow-1">
+                                        <h6 class="mb-0 fw-bold">${a.name}</h6>
+                                        <small class="text-muted">${a.brand}</small>
+                                        <div class="fw-bold text-success">$${a.price.toFixed(2)}</div>
+                                    </div>
+                                    <button class="btn btn-sm btn-primary" onclick="addToCart(${a.id})">Add</button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+                new bootstrap.Modal(document.getElementById('alternativesModal')).show();
+            });
+    }
+
+    function addToCart(productId) {
+        fetch('/api/cart/add/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCSRFToken()
+            },
+            body: JSON.stringify({ product_id: productId, quantity: 1 })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === "success") {
+                loadCart();
+                alert("Product added to reservation cart!");
+            }
+        });
+    }
+
+    function loadCart() {
+        fetch('/api/cart/')
+            .then(res => res.json())
+            .then(data => {
+                const list = document.getElementById("cartItemsList");
+                list.innerHTML = "";
+                let count = 0;
+
+                data.cart.forEach(item => {
+                    count += item.quantity;
+                    list.innerHTML += `
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="my-0">${item.product_name}</h6>
+                                <small class="text-muted">Qty: ${item.quantity} x $${item.unit_price.toFixed(2)}</small>
+                            </div>
+                            <span class="fw-bold">$${item.subtotal.toFixed(2)}</span>
+                        </li>
+                    `;
+                });
+
+                document.getElementById("cartTotal").innerText = `$${data.total_amount.toFixed(2)}`;
+                document.getElementById("cartBadge").innerText = count;
+            });
+    }
+</script>
+{% endblock %}

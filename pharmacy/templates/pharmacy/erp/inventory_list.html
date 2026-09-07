@@ -1,0 +1,92 @@
+{% extends "pharmacy/layout.html" %}
+
+{% block title %}إدارة المخزون - ERP{% endblock %}
+
+{% block body %}
+<div class="container-fluid my-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3><i class="bi bi-boxes text-primary me-2"></i>إدارة منتجات المخزن</h3>
+        <a href="{% url 'erp_product_create' %}" class="btn btn-success"><i class="bi bi-plus-lg me-1"></i> إضافة منتج جديد</a>
+    </div>
+
+    <!-- Search Bar -->
+    <form method="GET" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="ابحث باسم المنتج، المادة الفعالة، الماركة..." value="{{ search_query }}">
+            <button class="btn btn-primary" type="submit">بحث</button>
+        </div>
+    </form>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>المنتج</th>
+                            <th>المادة الفعالة</th>
+                            <th>التصنيف</th>
+                            <th>التعبئة</th>
+                            <th>أسعار البيع</th>
+                            <th>المخزون الحالي</th>
+                            <th>تعديل سريع للمخزون</th>
+                            <th>إجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in products %}
+                        <tr>
+                            <td>
+                                <strong>{{ p.name }}</strong>
+                                {% if p.requires_prescription %}<span class="badge bg-warning text-dark ms-1">روشتة</span>{% endif %}
+                            </td>
+                            <td>{{ p.active_ingredient.name|default:"-" }}</td>
+                            <td><span class="badge bg-secondary">{{ p.category.name }}</span></td>
+                            <td>1 {{ p.package_unit }} = {{ p.units_per_package }} {{ p.sub_unit }}</td>
+                            <td>
+                                <div><small>عبوة:</small> <strong>${{ p.package_price }}</strong></div>
+                                <div><small>{{ p.sub_unit }}:</small> <strong>${{ p.sub_unit_price }}</strong></div>
+                            </td>
+                            <td>
+                                {% if p.stock_in_sub_units <= 20 %}
+                                    <span class="badge bg-danger">{{ p.stock_in_sub_units }} {{ p.sub_unit }}</span>
+                                {% else %}
+                                    <span class="badge bg-success">{{ p.stock_in_sub_units }} {{ p.sub_unit }}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <form method="POST" action="{% url 'erp_stock_adjust' p.id %}" class="d-flex gap-1" style="max-width: 220px;">
+                                    {% csrf_token %}
+                                    <input type="number" name="amount" class="form-control form-control-sm" placeholder="الكمية" required>
+                                    <select name="unit_type" class="form-select form-select-sm">
+                                        <option value="sub_unit">{{ p.sub_unit }}</option>
+                                        <option value="package">{{ p.package_unit }}</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-outline-success">+</button>
+                                </form>
+                            </td>
+                            <td>
+                                <a href="{% url 'erp_product_edit' p.id %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="8" class="text-center py-4 text-muted">لا توجد منتجات مطابقة لعملية البحث.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
