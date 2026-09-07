@@ -2,13 +2,13 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # العملاء والواجهة العامة
+    # Main 'catalog'
     path('', views.index, name='index'),
     path('register/', views.register_view, name='register'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     
-    # وحدة الـ ERP المخصصة للموظفين والمدراء
+    # ERP
     path('erp/', views.erp_dashboard, name='erp_dashboard'),
     path('erp/inventory/', views.erp_inventory_list, name='erp_inventory'),
     path('erp/products/add/', views.erp_product_create, name='erp_product_create'),

@@ -20,4 +20,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('pharmacy.urls')),
+    
+    # Language switch
+    path('i18n/', include('django.conf.urls.i18n')),
 ]
