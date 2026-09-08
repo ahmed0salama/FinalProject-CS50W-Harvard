@@ -14,6 +14,11 @@ urlpatterns = [
     path('erp/products/add/', views.erp_product_create, name='erp_product_create'),
     path('erp/products/<int:product_id>/edit/', views.erp_product_edit, name='erp_product_edit'),
     path('erp/products/<int:product_id>/stock-adjust/', views.erp_stock_adjust, name='erp_stock_adjust'),
+    path('erp/pos/', views.erp_pos_view, name='erp_pos'),
+    path('api/pos/checkout/', views.api_pos_checkout, name='api_pos_checkout'),
+    path('erp/vendors/', views.erp_vendor_list, name='erp_vendors'),
+    path('erp/purchases/', views.erp_purchase_order_list, name='erp_purchases'),
+    path('erp/purchases/new/', views.erp_purchase_order_create, name='erp_purchase_create'),
 
     # APIs
     path('api/search/', views.api_search_products, name='api_search_products'),

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from .models import Product
+from .models import Product, Vendor
 
 User = get_user_model()
 
@@ -60,3 +60,15 @@ class RegisterForm(forms.ModelForm):
             self.add_error('confirm_password', "Passwords do not match!")
 
         return cleaned_data
+
+class VendorForm(forms.ModelForm):
+    class Meta:
+        model = Vendor
+        fields = ['name', 'company_name', 'phone_number', 'email', 'address']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'company_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'address': forms.Textarea(attrs={'class': 'form-control', 'rows': 2}),
+        }

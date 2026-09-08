@@ -1,0 +1,78 @@
+{% extends "pharmacy/layout.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Purchase Order Registration - ERP" %}{% endblock %}
+
+{% block body %}
+<div class="container my-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-success text-white fw-bold">
+            <i class="bi bi-cart-plus me-2"></i>{% trans "Register New Purchase Order" %}
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-4 style='max-width: 400px;'">
+                    <label class="form-label fw-bold">{% trans "Choose Vendor" %} *</label>
+                    <select name="vendor_id" class="form-select" required>
+                        <option value="">-- {% trans "Choose Vendor" %} --</option>
+                        {% for v in vendors %}
+                            <option value="{{ v.id }}">{{ v.company_name|default:v.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <h5 class="fw-bold mb-3">{% trans "Invoice Items" %}</h5>
+                <table class="table table-bordered align-middle" id="poTable">
+                    <thead class="table-light">
+                        <tr>
+                            <th>{% trans "Product" %}</th>
+                            <th style="width: 150px;">{% trans "Quantity (Packages)" %}</th>
+                            <th style="width: 180px;">{% trans "Package Purchase Price ($)" %}</th>
+                            <th style="width: 50px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="poRows">
+                        <tr>
+                            <td>
+                                <select name="product_id[]" class="form-select" required>
+                                    <option value="">-- {% trans "Choose Product" %} --</option>
+                                    {% for p in products %}
+                                        <option value="{{ p.id }}">{{ p.name }} ({% trans "Unit" %}: {{ p.package_unit }})</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td><input type="number" name="quantity[]" class="form-control" min="1" value="1" required></td>
+                            <td><input type="number" step="0.01" name="purchase_price[]" class="form-control" placeholder="0.00" required></td>
+                            <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">&times;</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <button type="button" class="btn btn-outline-primary mb-4" onclick="addRow()">+ {% trans "Add Row" %}</button>
+
+                <div class="d-flex justify-content-between border-top pt-3">
+                    <a href="{% url 'erp_purchases' %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
+                    <button type="submit" class="btn btn-success px-4 fw-bold">{% trans "Save Purchase Order & Update Stock" %}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function addRow() {
+    let tbody = document.getElementById('poRows');
+    let firstRow = tbody.children[0].cloneNode(true);
+    firstRow.querySelectorAll('input').forEach(i => i.value = '');
+    tbody.appendChild(firstRow);
+}
+
+function removeRow(btn) {
+    let tbody = document.getElementById('poRows');
+    if (tbody.children.length > 1) {
+        btn.closest('tr').remove();
+    }
+}
+</script>
+{% endblock %}

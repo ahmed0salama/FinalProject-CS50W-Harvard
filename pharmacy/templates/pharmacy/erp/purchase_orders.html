@@ -1,0 +1,67 @@
+{% extends "pharmacy/layout.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Purchase Orders - ERP" %}{% endblock %}
+
+{% block body %}
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="fw-bold"><i class="bi bi-receipt me-2"></i>{% trans "Purchase Orders Log" %}</h3>
+        <a href="{% url 'erp_purchase_create' %}" class="btn btn-success fw-bold">
+            <i class="bi bi-plus-circle me-1"></i>{% trans "Register New Purchase Order" %}
+        </a>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>{% trans "Invoice #" %}</th>
+                            <th>{% trans "Vendor" %}</th>
+                            <th>{% trans "Responsible Employee" %}</th>
+                            <th>{% trans "Invoice Total" %}</th>
+                            <th>{% trans "Created Date" %}</th>
+                            <th>{% trans "Details" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                        <tr>
+                            <td><strong>#PO-{{ order.id }}</strong></td>
+                            <td>{{ order.vendor.company_name|default:order.vendor.name }}</td>
+                            <td>{{ order.created_by.username|default:"-" }}</td>
+                            <td class="text-success fw-bold">${{ order.total_amount }}</td>
+                            <td>{{ order.created_at|date:"Y-m-d H:i" }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-info" type="button" data-bs-toggle="collapse" data-bs-target="#order-details-{{ order.id }}">
+                                    {% trans "Show Products" %}
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="collapse" id="order-details-{{ order.id }}">
+                            <td colspan="6" class="bg-light p-3">
+                                <h6 class="fw-bold mb-2">{% trans "Delivered Products" %}:</h6>
+                                <ul class="list-group">
+                                    {% for item in order.items.all %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span><strong>{{ item.product.name }}</strong> ({% trans "Quantity" %}: {{ item.quantity_packages }} {{ item.product.package_unit }})</span>
+                                        <span class="badge bg-secondary">{% trans "Purchase Price" %}: ${{ item.unit_purchase_price }} | {% trans "Total" %}: ${{ item.subtotal }}</span>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center py-4 text-muted">{% trans "No purchase invoices have been registered yet." %}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

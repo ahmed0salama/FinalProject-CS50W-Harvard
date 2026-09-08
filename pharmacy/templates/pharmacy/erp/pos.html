@@ -1,0 +1,204 @@
+{% extends "pharmacy/layout.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "POS Cashier - Pharmacy ERP" %}{% endblock %}
+
+{% block body %}
+<div class="container-fluid my-3">
+    <div class="row">
+        <div class="col-md-7">
+            <div class="card shadow-sm border-0 mb-3">
+                <div class="card-body">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-search me-2"></i>{% trans "Product Catalog & Search" %}</h5>
+                    <input type="text" id="posSearchInput" class="form-control form-control-lg mb-3" placeholder="{% trans 'Type drug name or active ingredient...' %}" onkeyup="filterPOSProducts()">
+                    
+                    <div class="row g-2" id="posProductGrid" style="max-height: 520px; overflow-y: auto;">
+                        {% for p in products %}
+                        <div class="col-md-4 pos-item-card" data-name="{{ p.name|lower }}" data-ingredient="{{ p.active_ingredient.name|default:''|lower }}">
+                            <div class="card h-100 border p-2 text-center shadow-sm">
+                                <h6 class="fw-bold mb-1 text-truncate">{{ p.name }}</h6>
+                                <small class="text-muted d-block">{{ p.category.name }}</small>
+                                <div class="my-2">
+                                    <span class="badge bg-primary">${{ p.package_price }}/{{ p.package_unit }}</span>
+                                    <span class="badge bg-info text-dark">${{ p.sub_unit_price }}/{{ p.sub_unit }}</span>
+                                </div>
+                                <div class="btn-group btn-group-sm w-100">
+                                    <button class="btn btn-outline-primary" onclick="addToPOSCart({{ p.id }}, '{{ p.name }}', {{ p.package_price }}, 'PACKAGE', '{{ p.package_unit }}')">+ {{ p.package_unit }}</button>
+                                    <button class="btn btn-outline-info text-dark" onclick="addToPOSCart({{ p.id }}, '{{ p.name }}', {{ p.sub_unit_price }}, 'SUB_UNIT', '{{ p.sub_unit }}')">+ {{ p.sub_unit }}</button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-dark text-white fw-bold">
+                    <i class="bi bi-cart-check me-2"></i>{% trans "Current Sales Ticket" %}
+                </div>
+                <div class="card-body p-3">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold"><i class="bi bi-person me-1"></i>{% trans "Select Client" %}</label>
+                        <select id="posClientSelect" class="form-select">
+                            <option value="">-- {% trans "Walk-in Customer (Guest)" %} --</option>
+                            {% for c in clients %}
+                                <option value="{{ c.id }}">{{ c.username }} ({% trans "Debt Balance" %}: ${{ c.balance }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="table-responsive mb-3" style="max-height: 250px;">
+                        <table class="table table-sm align-middle">
+                            <thead>
+                                <tr>
+                                    <th>{% trans "Item" %}</th>
+                                    <th>{% trans "Unit" %}</th>
+                                    <th>{% trans "Qty" %}</th>
+                                    <th>{% trans "Price" %}</th>
+                                    <th>{% trans "Action" %}</th>
+                                </tr>
+                            </thead>
+                            <tbody id="posCartTable">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="border-top pt-3">
+                        <div class="d-flex justify-content-between h4 fw-bold">
+                            <span>{% trans "Total Amount" %}:</span>
+                            <span id="posTotalAmount" class="text-primary">$0.00</span>
+                        </div>
+
+                        <div class="mb-2">
+                            <label class="form-label fw-bold text-success">{% trans "Amount Paid" %} ($)</label>
+                            <input type="number" id="posAmountPaid" class="form-control form-control-lg fw-bold" value="0.00" step="0.01" oninput="calculateRemaining()">
+                        </div>
+
+                        <div class="d-flex justify-content-between h6 text-danger fw-bold mb-3">
+                            <span>{% trans "Remaining / Credit Balance" %}:</span>
+                            <span id="posRemainingBalance">$0.00</span>
+                        </div>
+
+                        <button class="btn btn-success btn-lg w-100 fw-bold py-2" onclick="submitPOSOrder()">
+                            <i class="bi bi-printer me-2"></i>{% trans "Complete Sale & Save Ticket" %}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let posCart = [];
+
+function addToPOSCart(id, name, price, unitType, unitName) {
+    let existing = posCart.find(item => item.product_id === id && item.unit_type === unitType);
+    if (existing) {
+        existing.quantity += 1;
+    } else {
+        posCart.push({
+            product_id: id,
+            name: name,
+            unit_price: price,
+            unit_type: unitType,
+            unit_name: unitName,
+            quantity: 1
+        });
+    }
+    renderPOSCart();
+}
+
+function removeFromPOSCart(index) {
+    posCart.splice(index, 1);
+    renderPOSCart();
+}
+
+function renderPOSCart() {
+    let tbody = document.getElementById('posCartTable');
+    tbody.innerHTML = '';
+    let total = 0;
+
+    posCart.forEach((item, index) => {
+        let subtotal = item.unit_price * item.quantity;
+        total += subtotal;
+        tbody.innerHTML += `
+            <tr>
+                <td><small><strong>${item.name}</strong></small></td>
+                <td><span class="badge bg-secondary">${item.unit_name}</span></td>
+                <td>
+                    <input type="number" class="form-control form-control-sm" style="width: 60px;" value="${item.quantity}" min="1" onchange="updateQty(${index}, this.value)">
+                </td>
+                <td>$${subtotal.toFixed(2)}</td>
+                <td><button class="btn btn-danger btn-sm py-0" onclick="removeFromPOSCart(${index})">&times;</button></td>
+            </tr>
+        `;
+    });
+
+    document.getElementById('posTotalAmount').innerText = '$' + total.toFixed(2);
+    calculateRemaining();
+}
+
+function updateQty(index, val) {
+    posCart[index].quantity = parseInt(val) || 1;
+    renderPOSCart();
+}
+
+function calculateRemaining() {
+    let total = parseFloat(document.getElementById('posTotalAmount').innerText.replace('$', '')) || 0;
+    let paid = parseFloat(document.getElementById('posAmountPaid').value) || 0;
+    let remaining = total - paid;
+    document.getElementById('posRemainingBalance').innerText = '$' + (remaining > 0 ? remaining.toFixed(2) : '0.00');
+}
+
+function filterPOSProducts() {
+    let q = document.getElementById('posSearchInput').value.toLowerCase();
+    document.querySelectorAll('.pos-item-card').forEach(card => {
+        let name = card.dataset.name;
+        let ing = card.dataset.ingredient;
+        if (name.includes(q) || ing.includes(q)) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+function submitPOSOrder() {
+    if (posCart.length === 0) {
+        alert("{% trans 'Cart is empty!' %}");
+        return;
+    }
+
+    let clientId = document.getElementById('posClientSelect').value;
+    let paid = parseFloat(document.getElementById('posAmountPaid').value) || 0;
+
+    fetch('/api/pos/checkout/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({
+            client_id: clientId,
+            items: posCart,
+            amount_paid: paid
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.error) {
+            alert("{% trans 'Error' %}: " + data.error);
+        } else {
+            alert("{% trans 'Success' %}! {% trans 'Order' %} #" + data.order_id + " {% trans 'processed. Remaining balance' %}: $" + data.remaining_balance);
+            posCart = [];
+            renderPOSCart();
+            location.reload();
+        }
+    });
+}
+</script>
+{% endblock %}

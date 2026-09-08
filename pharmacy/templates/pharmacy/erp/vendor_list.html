@@ -1,0 +1,74 @@
+{% extends "pharmacy/layout.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Vendors - ERP" %}{% endblock %}
+
+{% block body %}
+<div class="container my-4">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-dark text-white fw-bold">{% trans "Add New Vendor" %}</div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="mb-2">
+                            <label class="form-label">{% trans "Vendor / Contact Name" %} *</label>
+                            {{ form.name }}
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">{% trans "Company Name" %}</label>
+                            {{ form.company_name }}
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">{% trans "Phone Number" %} *</label>
+                            {{ form.phone_number }}
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">{% trans "Email" %}</label>
+                            {{ form.email }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">{% trans "Address" %}</label>
+                            {{ form.address }}
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">{% trans "Save Vendor" %}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white fw-bold">{% trans "Approved Vendors List" %}</div>
+                <div class="card-body p-0">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>{% trans "Company / Vendor" %}</th>
+                                <th>{% trans "Phone" %}</th>
+                                <th>{% trans "Email" %}</th>
+                                <th>{% trans "Address" %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for v in vendors %}
+                            <tr>
+                                <td><strong>{{ v.company_name|default:v.name }}</strong><br><small class="text-muted">{{ v.name }}</small></td>
+                                <td>{{ v.phone_number }}</td>
+                                <td>{{ v.email|default:"-" }}</td>
+                                <td>{{ v.address|default:"-" }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center py-3 text-muted">{% trans "No vendors available." %}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

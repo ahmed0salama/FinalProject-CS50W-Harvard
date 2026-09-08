@@ -1,23 +1,23 @@
-{% extends "pharmacy/layout.html" %}
+{% extends "pharmacy/erp/side-bar.html" %}
+{% load i18n %}
 
-{% block title %}ERP Dashboard - Pharmacy System{% endblock %}
+{% block title %}{% trans "ERP Dashboard - Pharmacy System" %}{% endblock %}
 
-{% block body %}
+{% block sidebar %}
 <div class="container-fluid my-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2><i class="bi bi-speedometer2 text-warning me-2"></i>لوحة تحكم النظام (ERP Dashboard)</h2>
+        <h2><i class="bi bi-speedometer2 text-warning me-2"></i>{% trans "Dashboard" %}</h2>
         <div>
-            <a href="{% url 'erp_inventory' %}" class="btn btn-primary"><i class="bi bi-boxes me-1"></i> إدارة المخزون</a>
-            <a href="{% url 'erp_product_create' %}" class="btn btn-success"><i class="bi bi-plus-circle me-1"></i> إضافة منتج</a>
+            <a href="{% url 'erp_inventory' %}" class="btn btn-primary"><i class="bi bi-boxes me-1"></i>{% trans "Inventory Manager" %}</a>
+            <a href="{% url 'erp_product_create' %}" class="btn btn-success"><i class="bi bi-plus-circle me-1"></i>{% trans "Add Product" %}</a>
         </div>
     </div>
 
-    <!-- Stats Cards -->
     <div class="row g-3 mb-4">
         <div class="col-md-3">
             <div class="card bg-primary text-white shadow-sm">
                 <div class="card-body">
-                    <h6 class="card-title">إجمالي المنتجات</h6>
+                    <h6 class="card-title">{% trans "Total Products" %}</h6>
                     <h2 class="fw-bold mb-0">{{ total_products }}</h2>
                 </div>
             </div>
@@ -25,7 +25,7 @@
         <div class="col-md-3">
             <div class="card bg-danger text-white shadow-sm">
                 <div class="card-body">
-                    <h6 class="card-title">منتجات قريبة من النفاد</h6>
+                    <h6 class="card-title">{% trans "Low Stock Products" %}</h6>
                     <h2 class="fw-bold mb-0">{{ low_stock_count }}</h2>
                 </div>
             </div>
@@ -33,7 +33,7 @@
         <div class="col-md-3">
             <div class="card bg-info text-white shadow-sm">
                 <div class="card-body">
-                    <h6 class="card-title">إجمالي الوحدات بالمخزن</h6>
+                    <h6 class="card-title">{% trans "Total Units in Stock" %}</h6>
                     <h2 class="fw-bold mb-0">{{ total_stock_items }}</h2>
                 </div>
             </div>
@@ -41,27 +41,26 @@
         <div class="col-md-3">
             <div class="card bg-secondary text-white shadow-sm">
                 <div class="card-body">
-                    <h6 class="card-title">عدد الموردين</h6>
+                    <h6 class="card-title">{% trans "Vendors" %}</h6>
                     <h2 class="fw-bold mb-0">{{ total_vendors }}</h2>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Low Stock Alert Table -->
     <div class="card border-0 shadow-sm">
         <div class="card-header bg-danger text-white">
-            <h5 class="mb-0"><i class="bi bi-exclamation-triangle-fill me-2"></i>تنبيهات النقص بالرصيد (Low Stock Warning)</h5>
+            <h5 class="mb-0"><i class="bi bi-exclamation-triangle-fill me-2"></i>{% trans "Low Stock Warning" %}</h5>
         </div>
         <div class="card-body p-0">
             <table class="table table-hover align-middle mb-0">
                 <thead>
                     <tr>
-                        <th>المنتج</th>
-                        <th>الفئة</th>
-                        <th>الرصيد المتبقي</th>
-                        <th>سعر العبوة / الشريط</th>
-                        <th>إجراءات</th>
+                        <th>{% trans "Product" %}</th>
+                        <th>{% trans "Category" %}</th>
+                        <th>{% trans "Remaining Stock" %}</th>
+                        <th>{% trans "Package / Unit Price" %}</th>
+                        <th>{% trans "Actions" %}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -72,12 +71,12 @@
                         <td><span class="badge bg-danger">{{ item.stock_in_sub_units }} {{ item.sub_unit }}</span></td>
                         <td>${{ item.package_price }} / ${{ item.sub_unit_price }}</td>
                         <td>
-                            <a href="{% url 'erp_product_edit' item.id %}" class="btn btn-sm btn-outline-primary">تعديل</a>
+                            <a href="{% url 'erp_product_edit' item.id %}" class="btn btn-sm btn-outline-primary">{% trans "Edit" %}</a>
                         </td>
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="5" class="text-center py-3 text-muted">جميع المنتجات متوفرة برصيد جيد!</td>
+                        <td colspan="5" class="text-center py-3 text-muted">{% trans "All products are stocked well." %}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -85,4 +84,6 @@
         </div>
     </div>
 </div>
+{% endblock %}
+{% block body %}
 {% endblock %}

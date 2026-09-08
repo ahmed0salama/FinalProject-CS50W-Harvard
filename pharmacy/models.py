@@ -12,6 +12,7 @@ class User(AbstractUser):
     role = models.CharField(max_length=20, choices=Role.choices, default=Role.CLIENT)
     phone_number = models.CharField(max_length=20, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
+    balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
     def is_employee_or_admin(self):
         return self.role in [self.Role.EMPLOYEE, self.Role.ADMIN] or self.is_superuser
@@ -119,6 +120,10 @@ class SalesOrder(models.Model):
         RESERVED = "RESERVED", "Reserved by Client"
         COMPLETED = "COMPLETED", "Completed / Sold"
         CANCELLED = "CANCELLED", "Cancelled"
+    class PaymentStatus(models.TextChoices):
+        PAID = "PAID", "Fully Paid"
+        PARTIAL = "PARTIAL", "Partially Paid"
+        UNPAID = "UNPAID", "Unpaid / Credit"
 
     client = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True, blank=True, related_name="sales_orders"
@@ -129,9 +134,12 @@ class SalesOrder(models.Model):
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.RESERVED)
     total_amount = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
     created_at = models.DateTimeField(auto_now_add=True)
+    amount_paid = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
+    remaining_balance = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
+    payment_status = models.CharField(max_length=20, choices=PaymentStatus.choices, default=PaymentStatus.PAID)
 
     def __str__(self):
-        return f"SO #{self.id} - {self.status}"
+        return f"SO #{self.id} - {self.status} - Paid: {self.amount_paid}/{self.total_amount}"
 
 
 class SalesOrderItem(models.Model):
@@ -149,3 +157,18 @@ class SalesOrderItem(models.Model):
     def save(self, *args, **kwargs):
         self.subtotal = self.quantity * self.unit_price
         super().save(*args, **kwargs)
+
+
+class CartReservation(models.Model):
+    session_id = models.CharField(max_length=40, db_index=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['session_id', 'product'],
+                name='unique_cart_product_per_session'
+            )
+        ]

@@ -1,3 +1,21 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+.margin-10{
+    margin:10px;
+}
+
 .product-card {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -9,6 +27,25 @@
 
 .product-img {
     height: 180px;
+    width: 100%;
     object-fit: contain;
     background-color: #f8f9fa;
+}
+
+#productsGrid {
+    min-width: 0;
+}
+
+#productsGrid .product-card {
+    min-width: 0;
+}
+
+@media (max-width: 767px) {
+    .product-img {
+        height: 150px;
+    }
+
+    #productsGrid {
+        row-gap: 1rem;
+    }
 }

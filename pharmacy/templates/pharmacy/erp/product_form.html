@@ -1,4 +1,5 @@
 {% extends "pharmacy/layout.html" %}
+{% load i18n %}
 
 {% block title %}{{ title }} - ERP{% endblock %}
 
@@ -13,64 +14,64 @@
                 {% csrf_token %}
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <label class="form-label fw-bold">اسم المنتج *</label>
+                        <label class="form-label fw-bold">{% trans "Product Name" %} *</label>
                         {{ form.name }}
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label fw-bold">الماركة/الشركة (Brand)</label>
+                        <label class="form-label fw-bold">{% trans "Brand" %}</label>
                         {{ form.brand }}
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label fw-bold">التصنيف *</label>
+                        <label class="form-label fw-bold">{% trans "Category" %} *</label>
                         {{ form.category }}
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label fw-bold">المادة الفعالة</label>
+                        <label class="form-label fw-bold">{% trans "Active Ingredient" %}</label>
                         {{ form.active_ingredient }}
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label fw-bold">وحدة العبوة الكبيرة</label>
+                        <label class="form-label fw-bold">{% trans "Package Unit" %}</label>
                         {{ form.package_unit }}
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label fw-bold">الوحدة الفرعية</label>
+                        <label class="form-label fw-bold">{% trans "Sub Unit" %}</label>
                         {{ form.sub_unit }}
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label fw-bold">عدد الوحدات الفرعية بالعبوة</label>
+                        <label class="form-label fw-bold">{% trans "Units Per Package" %}</label>
                         {{ form.units_per_package }}
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label fw-bold">سعر العبوة الكاملة *</label>
+                        <label class="form-label fw-bold">{% trans "Package Price" %} *</label>
                         {{ form.package_price }}
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label fw-bold">سعر الوحدة الفرعية (الشريط) *</label>
+                        <label class="form-label fw-bold">{% trans "Sub Unit Price" %} *</label>
                         {{ form.sub_unit_price }}
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label fw-bold">رصيد المخزون (بالوحدات الفرعية) *</label>
+                        <label class="form-label fw-bold">{% trans "Stock Level" %} *</label>
                         {{ form.stock_in_sub_units }}
                     </div>
                     <div class="col-md-6 d-flex align-items-end mb-2">
                         <div class="form-check">
                             {{ form.requires_prescription }}
-                            <label class="form-check-label fw-bold ms-2">يتطلب وصفة طبية (روشتة)</label>
+                            <label class="form-check-label fw-bold ms-2">{% trans "Requires Prescription" %}</label>
                         </div>
                     </div>
                     <div class="col-12">
-                        <label class="form-label fw-bold">رابط صورة المنتج (Image URL)</label>
+                        <label class="form-label fw-bold">{% trans "Image URL" %}</label>
                         {{ form.image_url }}
                     </div>
                     <div class="col-12">
-                        <label class="form-label fw-bold">الوصف والتفاصيل</label>
+                        <label class="form-label fw-bold">{% trans "Description" %}</label>
                         {{ form.description }}
                     </div>
                 </div>
 
                 <div class="d-flex justify-content-between mt-4">
-                    <a href="{% url 'erp_inventory' %}" class="btn btn-secondary">إلغاء</a>
-                    <button type="submit" class="btn btn-success px-4">حفظ البيانات</button>
+                    <a href="{% url 'erp_inventory' %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
+                    <button type="submit" class="btn btn-success px-4">{% trans "Save Data" %}</button>
                 </div>
             </form>
         </div>
