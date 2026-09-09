@@ -17,19 +17,25 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4 fixed-top">
     <div class="container-fluid">
         <a class="navbar-brand fw-bold" href="{%url 'index' %}">Pharmacy</a>
 
-        {% if user.is_authenticated %}
+        <div class="d-flex align-items-center ms-auto">
+            <a class="nav-link cart-link position-relative" href="{% url 'index' %}" aria-label="Cart">
+                <i class="bi bi-cart-fill fs-5 text-white"></i>
+                <span class="badge rounded-pill bg-light text-dark cart-badge" id="cartBadge">0</span>
+            </a>
+        </div>
+
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        {% endif %}
 
         <div class="collapse navbar-collapse" id="mainNavbar">
             {% if user.is_authenticated %}
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                {% if user.is_employee_or_admin %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'erp_inventory' %}">{% trans "Inventory Manager" %}</a>
                 </li>
@@ -42,6 +48,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'erp_purchases' %}">{% trans "Purchase Orders" %}</a>
                 </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">{% trans "Logout" %}</a>
                 </li>
@@ -59,7 +66,7 @@
 
             <form action="{% url 'set_language' %}" method="post" class="d-flex align-items-center me-3" id="languageForm">
                 {% csrf_token %}
-                <p>{% trans "Language" %}</p>
+                <!-- <p>{% trans "Language" %}</p> -->
                 <input name="next" type="hidden" value="{{ redirect_to }}">
                 {% get_current_language as LANGUAGE_CODE %}
                 {% get_available_languages as LANGUAGES %}
@@ -81,6 +88,23 @@
 {% endblock %}
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function loadCartNavbar() {
+    fetch('/api/cart/')
+        .then(res => res.json())
+        .then(data => {
+            let count = 0;
+            data.cart.forEach(item => {
+                count += item.quantity;
+            });
+            const badge = document.getElementById('cartBadge');
+            if (badge) {
+                badge.textContent = count;
+            }
+        });
+}
+document.addEventListener('DOMContentLoaded', loadCartNavbar);
+</script>
 {% block script %}{% endblock %}
 </body>
 </html>

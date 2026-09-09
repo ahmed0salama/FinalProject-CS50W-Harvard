@@ -377,7 +377,7 @@ msgstr ""
 
 #: .\pharmacy\templates\pharmacy\index.html:11
 msgid "Search by name, brand, or active ingredient (e.g. Paracetamol)..."
-msgstr "بحث"
+msgstr "بحث بالاسم او البراند او المادة الفعالة"
 
 #: .\pharmacy\templates\pharmacy\index.html:16
 #, fuzzy
