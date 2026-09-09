@@ -20,6 +20,9 @@ msgstr ""
 msgid "English"
 msgstr "الإنجليزية"
 
+msgid "Language Settings"
+msgstr "اعدادات اللغة"
+
 #: .\medicine\settings.py:29
 msgid "Arabic"
 msgstr "العربية"
@@ -335,11 +338,14 @@ msgstr "إتمام عملية البيع وحفظ الفاتورة"
 
 #: .\pharmacy\templates\pharmacy\erp\pos.html:172
 msgid "Cart is empty!"
-msgstr ""
+msgstr "سلة التسوق فاضيه"
 
 #: .\pharmacy\templates\pharmacy\erp\pos.html:194
 msgid "Error"
-msgstr ""
+msgstr "خطأ"
+
+msgid "Profile"
+msgstr "الحساب"
 
 #: .\pharmacy\templates\pharmacy\erp\pos.html:196
 msgid "Success"
@@ -533,8 +539,8 @@ msgstr "تسجيل الدخول"
 msgid "Logout"
 msgstr "تسجيل الخروج"
 
-#~ msgid "Cart"
-#~ msgstr "سلة التسوق"
+msgid "Cart"
+msgstr "سلة التسوق"
 
 #~ msgid "Total Stock Items"
 #~ msgstr "إجمالي الوحدات بالمخزن"

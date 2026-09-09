@@ -146,31 +146,5 @@
             }
         });
     }
-
-    function loadCart() {
-        fetch('/api/cart/')
-            .then(res => res.json())
-            .then(data => {
-                const list = document.getElementById("cartItemsList");
-                list.innerHTML = "";
-                let count = 0;
-
-                data.cart.forEach(item => {
-                    count += item.quantity;
-                    list.innerHTML += `
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
-                                <h6 class="my-0">${item.product_name}</h6>
-                                <small class="text-muted">Qty: ${item.quantity} x $${item.unit_price.toFixed(2)}</small>
-                            </div>
-                            <span class="fw-bold">$${item.subtotal.toFixed(2)}</span>
-                        </li>
-                    `;
-                });
-
-                document.getElementById("cartTotal").innerText = `$${data.total_amount.toFixed(2)}`;
-                document.getElementById("cartBadge").innerText = count;
-            });
-    }
 </script>
 {% endblock %}
