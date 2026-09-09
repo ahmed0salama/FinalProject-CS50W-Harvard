@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load static %}
+{% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
 <head>
@@ -38,6 +39,7 @@
 
             <form action="{% url 'set_language' %}" method="post" class="d-flex align-items-center me-3">
                 {% csrf_token %}
+                <p>{% trans "Language" %}</p>
                 <input name="next" type="hidden" value="{{ redirect_to }}">
                 {% get_current_language as LANGUAGE_CODE %}
                 {% get_available_languages as LANGUAGES %}

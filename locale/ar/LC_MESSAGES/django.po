@@ -48,14 +48,12 @@ msgstr "إجمالي المنتجات"
 
 # ERP & Inventory
 #: .\pharmacy\templates\pharmacy\erp\dashboard.html:28
-#, fuzzy
-#| msgid "Total Products"
 msgid "Low Stock Products"
-msgstr "إجمالي المنتجات"
+msgstr "منتجات قربت تخلص"
 
 #: .\pharmacy\templates\pharmacy\erp\dashboard.html:36
 msgid "Total Units in Stock"
-msgstr ""
+msgstr "اجمالي الوحدات في المخزون"
 
 #: .\pharmacy\templates\pharmacy\erp\dashboard.html:44
 #: .\pharmacy\templates\pharmacy\layout.html:29
@@ -68,40 +66,163 @@ msgstr "تنبيهات نقص الرصيد"
 
 #: .\pharmacy\templates\pharmacy\erp\dashboard.html:59
 #: .\pharmacy\templates\pharmacy\erp\inventory_list.html:35
-#, fuzzy
-#| msgid "Add Product"
 msgid "Product"
-msgstr "إضافة منتج"
+msgstr "المنتج"
 
 #: .\pharmacy\templates\pharmacy\erp\dashboard.html:60
 #: .\pharmacy\templates\pharmacy\erp\inventory_list.html:37
-#, fuzzy
-#| msgid "Category"
 msgid "Category"
 msgstr "التصنيف"
 
 #: .\pharmacy\templates\pharmacy\erp\dashboard.html:61
 msgid "Remaining Stock"
-msgstr ""
+msgstr "الوحدات المتبقية"
+
+msgid "Purchase Orders Log"
+msgstr "سجل فواتير الشراء"
+
+msgid "Register New Purchase Order"
+msgstr "اضافة فاتورة شراء جديدة"
+
+msgid "Details"
+msgstr "التفاصيل"
+
+msgid "Created Date"
+msgstr "تاريخ الانشاء"
+
+msgid "Invoice Total"
+msgstr "اجمالي الفاتورة"
+
+msgid "Responsible Employee"
+msgstr "الموظف المسؤول"
+
+msgid "Vendor"
+msgstr "المورد"
+
+msgid "Invoice #"
+msgstr "# الفاتورة"
+
+msgid "Show Products"
+msgstr "عرض المنتجات"
+
+msgid "Delivered Products"
+msgstr "المنتجات"
+
+msgid "Purchase Price"
+msgstr "سعر الشراء"
+
+msgid "Total"
+msgstr "الاجمالي"
+
+msgid "Box"
+msgstr "علبة"
+
+msgid "Choose Vendor"
+msgstr "اختر المورد"
+
+msgid "Invoice Items"
+msgstr "منتجات الفاتورة"
+
+msgid "Add Row"
+msgstr "اضافة سطر"
+
+msgid "Cancel"
+msgstr "الغاء"
+
+msgid "Quantity (Packages)"
+msgstr "الكمية (علبة)"
+
+msgid "Package Purchase Price ($)"
+msgstr "سعر شراء العلبة ($)"
+
+msgid "Save Purchase Order & Update Stock"
+msgstr "حفظ امر الشراء و تحديث المخزون"
+
+msgid "Packaging"
+msgstr "التعبئة"
+
+msgid "Sale Prices"
+msgstr "سعر البيع"
+
+msgid "Current Stock"
+msgstr "الرصيد"
+
+msgid "Quick Stock Adjustment"
+msgstr "تعديل سريع للكمية"
+
+msgid "Product Name"
+msgstr "اسم المنتج"
+
+msgid "Brand"
+msgstr "الماركة / الشركة"
+
+msgid "Package Unit"
+msgstr "وحدة التغليف"
+
+msgid "Sub Unit"
+msgstr "الوحدة المصغرة"
+
+msgid "Units Per Package"
+msgstr "عدد الوحدات الفرعية بالعبوة"
+
+msgid "Package Price"
+msgstr "سعر العبوة"
+
+msgid "Sub Unit Price"
+msgstr "سعر الوحدة الفرعية"
+
+msgid "Stock Level"
+msgstr "رصيد المخزون"
+
+msgid "Requires Prescription"
+msgstr "يحتاج روشتة"
+
+msgid "Image URL"
+msgstr "رابط الصورة"
+
+msgid "Description"
+msgstr "الوصف"
+
+msgid "Address"
+msgstr "العنوان"
+
+msgid "Phone"
+msgstr "موبايل"
+
+msgid "Company / Vendor"
+msgstr "الشركة / المورد"
+
+msgid "Approved Vendors List"
+msgstr "الموردين الموثقين"
+
+msgid "Add New Vendor"
+msgstr "اضافة مورد"
+
+msgid "Vendor / Contact Name"
+msgstr "اسم المورد"
+
+msgid "Company Name"
+msgstr "اسم الشركة"
+
+msgid "Save Vendor"
+msgstr "حفظ المورد"
 
 #: .\pharmacy\templates\pharmacy\erp\dashboard.html:62
-#, fuzzy
-#| msgid "Package Price"
 msgid "Package / Unit Price"
-msgstr "سعر العبوة"
+msgstr "سعر العبوة / سعر الوحدة"
 
 #: .\pharmacy\templates\pharmacy\erp\dashboard.html:63
 #: .\pharmacy\templates\pharmacy\erp\inventory_list.html:42
 msgid "Actions"
-msgstr ""
+msgstr "الاوامر"
 
 #: .\pharmacy\templates\pharmacy\erp\dashboard.html:74
 msgid "Edit"
-msgstr ""
+msgstr "تعديل"
 
 #: .\pharmacy\templates\pharmacy\erp\dashboard.html:79
 msgid "All products are stocked well."
-msgstr ""
+msgstr "كل المنتجات كميتها ممتازة"
 
 #: .\pharmacy\templates\pharmacy\erp\inventory_list.html:4
 #, fuzzy
@@ -110,14 +231,10 @@ msgid "Inventory Management - ERP"
 msgstr "إدارة المخزون"
 
 #: .\pharmacy\templates\pharmacy\erp\inventory_list.html:9
-#, fuzzy
-#| msgid "Inventory Manager"
 msgid "Inventory Products"
 msgstr "إدارة المخزون"
 
 #: .\pharmacy\templates\pharmacy\erp\inventory_list.html:10
-#, fuzzy
-#| msgid "Add Product"
 msgid "Add New Product"
 msgstr "إضافة منتج"
 
@@ -135,43 +252,17 @@ msgstr "بحث"
 msgid "Active Ingredient"
 msgstr "المادة الفعالة"
 
-#: .\pharmacy\templates\pharmacy\erp\inventory_list.html:38
-#, fuzzy
-#| msgid "Package Unit"
-msgid "Packaging"
-msgstr "وحدة العبوة الكبيرة"
-
-#: .\pharmacy\templates\pharmacy\erp\inventory_list.html:39
-#, fuzzy
-#| msgid "Package Price"
-msgid "Sale Prices"
-msgstr "سعر العبوة"
-
-#: .\pharmacy\templates\pharmacy\erp\inventory_list.html:40
-#, fuzzy
-#| msgid "Current Sales Ticket"
-msgid "Current Stock"
-msgstr "فاتورة البيع الحالية"
-
-#: .\pharmacy\templates\pharmacy\erp\inventory_list.html:41
-msgid "Quick Stock Adjustment"
-msgstr ""
-
 #: .\pharmacy\templates\pharmacy\erp\inventory_list.html:50
-#, fuzzy
-#| msgid "Requires Prescription"
 msgid "Prescription"
 msgstr "يتطلب وصفة طبية (روشتة)"
 
 #: .\pharmacy\templates\pharmacy\erp\inventory_list.html:56
-#, fuzzy
-#| msgid "Package Unit"
 msgid "Package"
 msgstr "وحدة العبوة الكبيرة"
 
 #: .\pharmacy\templates\pharmacy\erp\inventory_list.html:69
 msgid "Quantity"
-msgstr ""
+msgstr "الكمية"
 
 #: .\pharmacy\templates\pharmacy\erp\inventory_list.html:83
 msgid "No products match your search."
@@ -208,25 +299,23 @@ msgstr ""
 
 #: .\pharmacy\templates\pharmacy\erp\pos.html:57
 msgid "Item"
-msgstr ""
+msgstr "المنتج"
 
 #: .\pharmacy\templates\pharmacy\erp\pos.html:58
-#, fuzzy
-#| msgid "Sub Unit"
 msgid "Unit"
 msgstr "الوحدة الفرعية"
 
 #: .\pharmacy\templates\pharmacy\erp\pos.html:59
 msgid "Qty"
-msgstr ""
+msgstr "الكمية"
 
 #: .\pharmacy\templates\pharmacy\erp\pos.html:60
 msgid "Price"
-msgstr ""
+msgstr "السعر"
 
 #: .\pharmacy\templates\pharmacy\erp\pos.html:61
 msgid "Action"
-msgstr ""
+msgstr "اجراء"
 
 #: .\pharmacy\templates\pharmacy\erp\pos.html:71
 msgid "Total Amount"
@@ -288,7 +377,7 @@ msgstr ""
 
 #: .\pharmacy\templates\pharmacy\index.html:11
 msgid "Search by name, brand, or active ingredient (e.g. Paracetamol)..."
-msgstr ""
+msgstr "بحث"
 
 #: .\pharmacy\templates\pharmacy\index.html:16
 #, fuzzy
@@ -322,7 +411,7 @@ msgstr ""
 
 #: .\pharmacy\templates\pharmacy\index.html:145
 msgid "Product added to reservation cart!"
-msgstr ""
+msgstr "تم اضافة المنتج للسه"
 
 # Navigation & Header
 #: .\pharmacy\templates\pharmacy\layout.html:6
@@ -343,7 +432,7 @@ msgstr "فواتير الشراء"
 
 #: .\pharmacy\templates\pharmacy\login.html:4
 msgid "Login - PharmaCatalog"
-msgstr ""
+msgstr "تسجيل الدخول"
 
 # Authentication & User Management
 #: .\pharmacy\templates\pharmacy\login.html:11
@@ -378,7 +467,7 @@ msgstr "تسجيل الدخول"
 
 #: .\pharmacy\templates\pharmacy\login.html:37
 msgid "Don't have an account?"
-msgstr ""
+msgstr "ليس لديك حساب"
 
 #: .\pharmacy\templates\pharmacy\login.html:37
 #, fuzzy
@@ -388,7 +477,7 @@ msgstr "إنشاء حساب"
 
 #: .\pharmacy\templates\pharmacy\register.html:4
 msgid "Register - PharmaCatalog"
-msgstr ""
+msgstr "التسجيل"
 
 #: .\pharmacy\templates\pharmacy\register.html:11
 msgid "Create New Account"
@@ -396,11 +485,11 @@ msgstr "إنشاء حساب جديد"
 
 #: .\pharmacy\templates\pharmacy\register.html:19
 msgid "Please correct the errors below."
-msgstr ""
+msgstr "من فضلك صحح الغلطات الظاهرة امامك"
 
 #: .\pharmacy\templates\pharmacy\register.html:30
 msgid "Email"
-msgstr ""
+msgstr "البريد الالكتروني"
 
 #: .\pharmacy\templates\pharmacy\register.html:35
 msgid "First Name"
@@ -430,13 +519,14 @@ msgstr "إنشاء حساب جديد"
 
 #: .\pharmacy\templates\pharmacy\register.html:66
 msgid "Already have an account?"
-msgstr ""
+msgstr "يوجد حساب بالفعل"
 
 #: .\pharmacy\templates\pharmacy\register.html:66
 #, fuzzy
 #| msgid "Login"
 msgid "Login here"
 msgstr "تسجيل الدخول"
+
 
 #~ msgid "ERP Dashboard"
 #~ msgstr "لوحة تحكم النظام (ERP)"
@@ -453,21 +543,6 @@ msgstr "تسجيل الدخول"
 #~ msgid "Total Vendors"
 #~ msgstr "عدد الموردين"
 
-#~ msgid "Product Name"
-#~ msgstr "اسم المنتج"
-
-#~ msgid "Brand"
-#~ msgstr "الماركة / الشركة"
-
-#~ msgid "Units Per Package"
-#~ msgstr "عدد الوحدات الفرعية بالعبوة"
-
-#~ msgid "Sub Unit Price"
-#~ msgstr "سعر الوحدة الفرعية"
-
-#~ msgid "Stock Level"
-#~ msgstr "رصيد المخزون"
-
 #~ msgid "Edit Product"
 #~ msgstr "تعديل المنتج"
 
@@ -475,17 +550,11 @@ msgstr "تسجيل الدخول"
 #~ msgid "Vendor Name"
 #~ msgstr "اسم المورد"
 
-#~ msgid "Company Name"
-#~ msgstr "اسم الشركة"
-
 #~ msgid "Add Vendor"
 #~ msgstr "إضافة مورد"
 
 #~ msgid "New Purchase Order"
 #~ msgstr "فاتورة شراء جديدة"
-
-#~ msgid "Purchase Price"
-#~ msgstr "سعر الشراء"
 
 #~ msgid "Save Purchase Order"
 #~ msgstr "حفظ الفاتورة وتحديث المخزون"
