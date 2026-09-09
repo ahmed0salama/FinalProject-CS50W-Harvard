@@ -387,27 +387,27 @@ msgstr "التصنيف"
 
 #: .\pharmacy\templates\pharmacy\index.html:63
 msgid "No products found"
-msgstr ""
+msgstr "مفيش منتجات"
 
 #: .\pharmacy\templates\pharmacy\index.html:69
 msgid "Rx Required"
-msgstr ""
+msgstr "مطلوب روشتة"
 
 #: .\pharmacy\templates\pharmacy\index.html:75
 msgid "Alternatives"
-msgstr ""
+msgstr "بدائل"
 
 #: .\pharmacy\templates\pharmacy\index.html:91
 msgid "Reserve"
-msgstr ""
+msgstr "حجز"
 
 #: .\pharmacy\templates\pharmacy\index.html:110
 msgid "No direct alternative products found."
-msgstr ""
+msgstr "مفيش بديل"
 
 #: .\pharmacy\templates\pharmacy\index.html:122
 msgid "Add"
-msgstr ""
+msgstr "اضافة"
 
 #: .\pharmacy\templates\pharmacy\index.html:145
 msgid "Product added to reservation cart!"
@@ -470,8 +470,9 @@ msgid "Don't have an account?"
 msgstr "ليس لديك حساب"
 
 #: .\pharmacy\templates\pharmacy\login.html:37
-#, fuzzy
-#| msgid "Register"
+msgid "Register"
+msgstr "انشاء حساب"
+
 msgid "Register here"
 msgstr "إنشاء حساب"
 
@@ -522,8 +523,6 @@ msgid "Already have an account?"
 msgstr "يوجد حساب بالفعل"
 
 #: .\pharmacy\templates\pharmacy\register.html:66
-#, fuzzy
-#| msgid "Login"
 msgid "Login here"
 msgstr "تسجيل الدخول"
 
@@ -531,8 +530,8 @@ msgstr "تسجيل الدخول"
 #~ msgid "ERP Dashboard"
 #~ msgstr "لوحة تحكم النظام (ERP)"
 
-#~ msgid "Logout"
-#~ msgstr "تسجيل الخروج"
+msgid "Logout"
+msgstr "تسجيل الخروج"
 
 #~ msgid "Cart"
 #~ msgstr "سلة التسوق"

@@ -21,10 +21,12 @@
     <div class="container-fluid">
         <a class="navbar-brand fw-bold" href="{%url 'index' %}">Pharmacy</a>
 
+        {% if user.is_authenticated %}
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        
+        {% endif %}
+
         <div class="collapse navbar-collapse" id="mainNavbar">
             {% if user.is_authenticated %}
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -40,10 +42,22 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'erp_purchases' %}">{% trans "Purchase Orders" %}</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">{% trans "Logout" %}</a>
+                </li>
+            </ul>
+            {% else %}
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">{% trans "Login" %}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}">{% trans "Register" %}</a>
+                </li>
             </ul>
             {% endif %}
 
-            <form action="{% url 'set_language' %}" method="post" class="d-flex align-items-center me-3">
+            <form action="{% url 'set_language' %}" method="post" class="d-flex align-items-center me-3" id="languageForm">
                 {% csrf_token %}
                 <p>{% trans "Language" %}</p>
                 <input name="next" type="hidden" value="{{ redirect_to }}">
