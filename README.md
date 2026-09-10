@@ -1,12 +1,12 @@
-# Pharmacy Management and E-Commerce System
+# Pharmacy ERP and Management Dashboard
 
 ## Overview
 
-This project is a complete pharmacy management and online store system built with Django. It combines a customer-facing pharmacy storefront with an internal Enterprise Resource Planning (ERP) system for pharmacy employees and administrators.
+This project is primarily a pharmacy Enterprise Resource Planning (ERP) system and management dashboard built with Django. Its main purpose is to help pharmacy employees and administrators manage inventory, vendors, purchasing, sales, payments, and customer credit. The customer-facing e-commerce storefront is an integrated supporting feature, not the main focus of the project.
 
-The system allows customers to browse pharmaceutical and beauty products, search by product name, brand, or active ingredient, filter products by category, view alternative products, and reserve products using a shopping cart. Registered users can maintain their personal information and review their recent orders.
+The ERP dashboard is the central part of the application. It provides pharmacy staff with operational tools for monitoring stock, registering suppliers, recording purchase orders, adjusting inventory, and processing sales through a Point of Sale (POS) interface. The storefront allows customers to browse pharmaceutical and beauty products, search by product name, brand, or active ingredient, filter products by category, view alternative products, and reserve products using a shopping cart.
 
-At the same time, authorized pharmacy employees can manage inventory, register vendors, create purchase orders, adjust stock quantities, monitor low-stock products, and complete sales through a Point of Sale (POS) interface. The project is designed to represent real pharmacy workflows instead of being limited to a basic online product catalog.
+The project is designed to represent real pharmacy management workflows instead of being limited to a basic online product catalog. The e-commerce functionality gives customers a convenient way to interact with the pharmacy, while the ERP and dashboard provide the core business value and operational control.
 
 The application uses Django, SQLite, Bootstrap, JavaScript, Django templates, Django authentication, and Django's internationalization features. The project supports both English and Arabic interfaces and automatically changes the page direction between left-to-right and right-to-left layouts.
 
@@ -82,7 +82,7 @@ Employees can search inventory by product name, brand, or active ingredient. The
 
 The vendor module stores supplier information including contact names, company names, phone numbers, email addresses, and physical addresses.
 
-Employees can create purchase orders by selecting a vendor and adding multiple products. Each purchase order records:
+Employees can create purchase orders by selecting a vendor and adding multiple products. Each order records:
 
 - The vendor
 - The employee who created it
@@ -93,7 +93,7 @@ Employees can create purchase orders by selecting a vendor and adding multiple p
 - The total invoice amount
 - The creation date
 
-When a purchase order is saved, the system automatically increases each product's inventory. The purchase workflow uses a database transaction so the purchase order and inventory changes are treated as one operation.
+When a purchase order is saved, the system automatically increases inventory. The workflow uses a database transaction so the order and stock changes are treated as one operation.
 
 The purchase order history displays previous invoices and allows employees to expand each invoice to see its delivered products and purchase prices.
 
@@ -113,7 +113,7 @@ The POS supports:
 - Automatic stock deduction
 - Automatic remaining-balance calculation
 
-When a sale is completed, the system locks the selected products during processing, checks that sufficient stock is available, subtracts the correct number of sub-units, and creates a `SalesOrder` with related `SalesOrderItem` records.
+When a sale is completed, the system locks the selected products, checks stock, subtracts the correct number of sub-units, and creates a `SalesOrder` with related `SalesOrderItem` records.
 
 The payment status is calculated automatically as fully paid, partially paid, or unpaid. If the customer does not pay the entire amount and is registered in the system, the remaining amount is added to the customer's credit balance.
 
@@ -132,7 +132,7 @@ The central database entities are:
 - `SalesOrderItem`: Stores each product sold and its unit type.
 - `CartReservation`: Stores products reserved in a visitor's session cart.
 
-Relationships between these models allow the project to connect inventory, purchasing, customers, sales, and credit balances into one integrated system.
+These relationships connect inventory, purchasing, customers, sales, and credit balances into one integrated system.
 
 ## Mobile Responsiveness
 
@@ -157,46 +157,46 @@ The language selector is available from the user menu, allowing users to change 
 
 ## Distinctiveness and Complexity
 
-### Distinctiveness and Complexity
+This project is distinct because its main focus is a pharmacy ERP and management dashboard, supported by an integrated online storefront. The e-commerce component is not the central idea; it is one customer-facing part of a larger operational system. The most important purpose of the project is to model and simplify the internal business processes required to operate a real pharmacy.
 
-This project is distinct because it combines two different but connected systems: an online pharmacy storefront for customers and an operational ERP platform for pharmacy staff. Many simple e-commerce projects only provide products, a shopping cart, and a checkout page. This project goes further by modeling the internal business processes required to operate a real pharmacy.
+Unlike a basic e-commerce project, this system gives pharmacy employees a complete workspace for managing stock, suppliers, purchases, sales, payments, and customer credit. The dashboard is the operational center where staff can monitor the pharmacy and take action.
 
-One important complexity is the multi-unit inventory design. Medicines are not always sold in one standard unit. A pharmacy may sell an entire box, a strip, a bottle, a tablet, or another smaller unit. The project solves this problem by storing inventory in the smallest unit while allowing employees to purchase and sell using either packages or sub-units. The conversion is calculated using the product's `units_per_package` value.
+One important complexity is the multi-unit inventory design. Medicines may be sold as boxes, strips, bottles, tablets, or other units. The project stores inventory in the smallest unit while allowing employees to purchase and sell packages or sub-units. Conversion uses the product's `units_per_package` value.
 
 The project also connects purchasing and selling to inventory automatically. Creating a purchase order increases stock, while completing a POS sale decreases stock. Database transactions and row-level locking help protect inventory from inconsistent updates during important operations.
 
-Another distinctive feature is active-ingredient intelligence. Customers can search for an active ingredient and view alternative products containing the same ingredient. This reflects a real pharmacy use case where different brands may contain equivalent medicines.
+Another distinctive feature is active-ingredient intelligence. Customers can search for an ingredient and view alternative products containing it, reflecting the real need to identify equivalent brands.
 
-The payment system adds further complexity. A sale can be paid completely, paid partially, or recorded as credit. Any remaining balance can be added to a registered customer's account. This allows the system to represent real pharmacy credit transactions rather than assuming every sale is paid immediately.
+The payment system adds further complexity. A sale can be fully paid, partially paid, or recorded as credit. Any remaining balance can be added to a registered customer's account.
 
-Finally, the application includes role-based access control, bilingual support, responsive design, session-based reservations, inventory warnings, vendors, purchase orders, POS processing, and customer profiles. These features work together across the same database, making the project more than a collection of unrelated pages.
+Together, role-based access, bilingual support, responsive design, reservations, inventory warnings, vendors, purchasing, POS processing, and profiles make this a connected pharmacy management platform rather than an e-commerce website with a few administrative pages.
 
 ## Future Improvements
 
 The project can be extended in several useful directions:
 
-1. Add prescription verification so products marked as requiring a prescription cannot be reserved or sold without pharmacist approval.
+1. Add prescription verification so restricted products require pharmacist approval.
 
-2. Connect customer reservations to a formal pickup workflow. Employees could confirm, reject, or complete reservations from the ERP dashboard.
+2. Connect reservations to a pickup workflow managed from the ERP dashboard.
 
-3. Add sales reports showing daily revenue, best-selling products, unpaid balances, and profit margins.
+3. Add reports for revenue, best-selling products, unpaid balances, and profit margins.
 
-4. Add expiration dates and batch numbers because medication inventory often requires batch-level tracking.
+4. Add expiration dates and batch numbers for medication tracking.
 
-5. Add automatic notifications for low-stock products, expiring medicines, and outstanding customer balances.
+5. Add notifications for low stock, expiring medicines, and customer balances.
 
-6. Improve automated testing for authentication, permissions, inventory conversion, stock deduction, purchase orders, payments, and cart behavior.
+6. Expand automated tests for permissions, inventory, purchasing, payments, and carts.
 
-7. Replace external image URLs with secure local media storage or a managed cloud storage service.
+7. Replace external image URLs with secure local or cloud media storage.
 
-8. Prepare the application for production by moving secrets into environment variables, setting `DEBUG` to `False`, configuring allowed hosts, and using a production database.
+8. Prepare for production with environment variables, `DEBUG = False`, allowed hosts, and a production database.
 
-9. Add employee audit logs so managers can see who created purchases, changed stock, or processed sales.
+9. Add audit logs for purchases, stock changes, and sales.
 
-10. Add a more complete customer checkout process, online payment integration, delivery tracking, and email confirmations.
+10. Add online payments, delivery tracking, and email confirmations.
 
 ## Conclusion
 
-This pharmacy project demonstrates how Django can support both public e-commerce features and internal business management workflows. It models realistic pharmacy requirements including active ingredients, alternative products, package conversions, inventory control, supplier purchasing, POS sales, customer credit, role permissions, language support, and responsive design.
+This pharmacy project demonstrates how Django can support a complete ERP and management dashboard for pharmacy operations, with e-commerce features as a secondary customer interface. It models active ingredients, alternatives, package conversions, inventory, purchasing, POS sales, credit, permissions, language support, and responsive design.
 
-Its combination of customer convenience and pharmacy operations makes it a practical, distinctive, and expandable foundation for a complete digital pharmacy management platform.
+The ERP dashboard and its operational workflows are the main idea. The storefront adds customer convenience, but the central value is helping pharmacy staff control the business through one connected management system.
