@@ -197,7 +197,6 @@ function submitPOSOrder() {
         if (data.error) {
             alert("{% trans 'Error' %}: " + data.error);
         } else {
-            alert("{% trans 'Success' %}! {% trans 'Order' %} #" + data.order_id + " {% trans 'processed. Remaining balance' %}: $" + data.remaining_balance);
             posCart = [];
             renderPOSCart();
             location.reload();

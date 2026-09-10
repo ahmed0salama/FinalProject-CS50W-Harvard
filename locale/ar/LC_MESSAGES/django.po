@@ -108,6 +108,9 @@ msgstr "# الفاتورة"
 msgid "# Invoice"
 msgstr "# الفاتورة"
 
+msgid "The remaining credit balance you owe to the pharmacy."
+msgstr " الرصيد المتبقي المستحق عليك في الصيدلية."
+
 msgid "Paid"
 msgstr "المدفوع"
 
