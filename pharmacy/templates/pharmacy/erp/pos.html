@@ -1,11 +1,13 @@
 {% extends "pharmacy/layout.html" %}
 {% load i18n %}
+{% load l10n %}
 
 {% block title %}{% trans "POS Cashier - Pharmacy ERP" %}{% endblock %}
 
 {% block body %}
 <div class="container-fluid my-3">
     <div class="row">
+
         <div class="col-md-7">
             <div class="card shadow-sm border-0 mb-3">
                 <div class="card-body">
@@ -23,8 +25,8 @@
                                     <span class="badge bg-info text-dark">${{ p.sub_unit_price }}/{{ p.sub_unit }}</span>
                                 </div>
                                 <div class="btn-group btn-group-sm w-100">
-                                    <button class="btn btn-outline-primary" onclick="addToPOSCart({{ p.id }}, '{{ p.name }}', {{ p.package_price }}, 'PACKAGE', '{{ p.package_unit }}')">+ {{ p.package_unit }}</button>
-                                    <button class="btn btn-outline-info text-dark" onclick="addToPOSCart({{ p.id }}, '{{ p.name }}', {{ p.sub_unit_price }}, 'SUB_UNIT', '{{ p.sub_unit }}')">+ {{ p.sub_unit }}</button>
+                                    <button class="btn btn-outline-primary" onclick="addToPOSCart({{ p.id }}, '{{ p.name|escapejs }}', {{ p.package_price|unlocalize }}, 'PACKAGE', '{{ p.package_unit|escapejs }}')">+ {{ p.package_unit }}</button>
+                                    <button class="btn btn-outline-info text-dark" onclick="addToPOSCart({{ p.id }}, '{{ p.name|escapejs }}', {{ p.sub_unit_price|unlocalize }}, 'SUB_UNIT', '{{ p.sub_unit|escapejs }}')">+ {{ p.sub_unit }}</button>
                                 </div>
                             </div>
                         </div>
@@ -89,6 +91,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 
@@ -96,6 +99,7 @@
 let posCart = [];
 
 function addToPOSCart(id, name, price, unitType, unitName) {
+    console.log(id, name, price, unitType, unitName);
     let existing = posCart.find(item => item.product_id === id && item.unit_type === unitType);
     if (existing) {
         existing.quantity += 1;

@@ -282,7 +282,7 @@ msgstr "كتالوج المنتجات والبحث"
 
 #: .\pharmacy\templates\pharmacy\erp\pos.html:13
 msgid "Type drug name or active ingredient..."
-msgstr ""
+msgstr "اكتب اسم العقار او المادة الفعالة..."
 
 #: .\pharmacy\templates\pharmacy\erp\pos.html:40
 msgid "Current Sales Ticket"
