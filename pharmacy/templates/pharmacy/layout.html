@@ -19,9 +19,10 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4 fixed-top">
     <div class="container-fluid">
-        <a class="navbar-brand fw-bold" href="{%url 'index' %}">Pharmacy</a>
 
-        <div class="d-flex align-items-center gap-2 nav-user-tools">
+        <a class="navbar-brand fw-bold" href="{%url 'index' %}">Pharmacy</a>
+        
+        <div class="d-flex align-items-center gap-2">
             <button type="button" class="btn btn-outline-warning text-white btn-sm position-relative cart-button" data-bs-toggle="modal" data-bs-target="#cartModal">
                 <i class="bi bi-cart3 me-1"></i>{% trans "Cart" %}
                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge" id="cartBadge">0</span>
@@ -69,13 +70,13 @@
                     {% endif %}
                 </ul>
             </div>
-        </div>
 
-        {% if user.is_employee_or_admin %}
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        {% endif %}
+            {% if user.is_employee_or_admin %}
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            {% endif %}
+        </div>
 
         <div class="collapse navbar-collapse" id="mainNavbar">
             {% if user.is_employee_or_admin %}
@@ -98,6 +99,7 @@
             </ul>
             {% endif %}
         </div>
+
     </div>
 </nav>
 
