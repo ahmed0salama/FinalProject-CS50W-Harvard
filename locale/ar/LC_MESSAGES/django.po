@@ -350,6 +350,12 @@ msgstr "الحساب"
 msgid "just now"
 msgstr "دلوقتي"
 
+msgid "Available Alternatives"
+msgstr "البدائل المتاحة"
+
+msgid "Products containing the same active ingredient:"
+msgstr "منتجات بنفس المادة الفعالة"
+
 #: .\pharmacy\templates\pharmacy\erp\pos.html:196
 msgid "Success"
 msgstr ""

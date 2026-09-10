@@ -32,6 +32,21 @@
     </div>
 </div>
 
+<div class="modal fade" id="alternativesModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title"><i class="bi bi-arrow-repeat me-2"></i>{% trans "Available Alternatives" %}</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted small">{% trans "Products containing the same active ingredient:" %}</p>
+                    <div id="alternativesList" class="row g-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <div id="productsGrid" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
     <!-- يتم التعبئة تلقائياً عبر JavaScript -->
 </div>
