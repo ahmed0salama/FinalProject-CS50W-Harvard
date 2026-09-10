@@ -347,6 +347,9 @@ msgstr "خطأ"
 msgid "Profile"
 msgstr "الحساب"
 
+msgid "just now"
+msgstr "دلوقتي"
+
 #: .\pharmacy\templates\pharmacy\erp\pos.html:196
 msgid "Success"
 msgstr ""

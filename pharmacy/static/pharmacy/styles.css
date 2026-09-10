@@ -20,8 +20,48 @@ body {
     margin-left: auto;
 }
 
+#liveToast{
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 2;
+}
+
 .navbar .cart-button {
     min-width: 94px;
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.85);
+    background: linear-gradient(135deg, #2aa876 0%, #7dd3a8 100%);
+    color: #ffffff;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+}
+
+.navbar .cart-button:hover {
+    background: linear-gradient(135deg, #1f8f66 0%, #5cbf91 100%);
+    color: #ffffff;
+}
+
+.navbar .cart-button .bi-cart3 {
+    font-size: .8rem;
+}
+
+.navbar .cart-button .cart-badge {
+    width: 1.4rem;
+    height: 1.4rem;
+    min-width: 1.4rem;
+    padding: 0;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    background: #dc3545;
+    color: #fff;
+    font-size: 0.78rem;
+    line-height: 1.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.35);
 }
 
 .navbar .profile-button {

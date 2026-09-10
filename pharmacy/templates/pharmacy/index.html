@@ -21,6 +21,17 @@
     </div>
 </div>
 
+<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="liveToast">
+    <div class="toast-header">
+      <strong class="me-auto">{% trans "Cart" %}</strong>
+      <small class="text-body-secondary">{% trans "just now" %}</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body" id="Toast">
+      {% trans 'Product added to reservation cart!' %}
+    </div>
+</div>
+
 <div id="productsGrid" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
     <!-- يتم التعبئة تلقائياً عبر JavaScript -->
 </div>
@@ -142,7 +153,9 @@
         .then(data => {
             if (data.status === "success") {
                 loadCart();
-                alert("{% trans 'Product added to reservation cart!' %}");
+                const toastLiveExample = document.getElementById('liveToast');
+                const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+                toastBootstrap.show();
             }
         });
     }
