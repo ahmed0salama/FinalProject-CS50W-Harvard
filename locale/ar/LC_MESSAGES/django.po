@@ -105,6 +105,18 @@ msgstr "المورد"
 msgid "Invoice #"
 msgstr "# الفاتورة"
 
+msgid "# Invoice"
+msgstr "# الفاتورة"
+
+msgid "Paid"
+msgstr "المدفوع"
+
+msgid "Remaining"
+msgstr "الباقي"
+
+msgid "Date"
+msgstr "التاريخ"
+
 msgid "Show Products"
 msgstr "عرض المنتجات"
 
@@ -209,6 +221,18 @@ msgstr "اسم الشركة"
 
 msgid "Save Vendor"
 msgstr "حفظ المورد"
+
+msgid "Personal information"
+msgstr "البيانات الشخصية"
+
+msgid "Edit profile"
+msgstr "عدل بياناتك"
+
+msgid "Save changes"
+msgstr "حفظ التغيرات"
+
+msgid "Recent orders"
+msgstr "اخر المشتريات"
 
 #: .\pharmacy\templates\pharmacy\erp\dashboard.html:62
 msgid "Package / Unit Price"

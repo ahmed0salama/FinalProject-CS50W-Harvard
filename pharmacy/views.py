@@ -1,11 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.db.models import Sum, Q
 from django.db import transaction
-from .forms import ProductForm, RegisterForm, VendorForm
+from .forms import ProductForm, RegisterForm, VendorForm, UserProfileForm
 from .decorators import employee_required
 from .models import *
 import json
@@ -312,6 +313,25 @@ def erp_stock_adjust(request, product_id):
             messages.success(request, f"تم تحديث مخزون '{product.name}' بنجاح! الرصيد الحالي: {product.stock_in_sub_units} {product.sub_unit}")
 
     return redirect('erp_inventory')
+
+
+@login_required
+def profile_view(request):
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "تم تحديث البيانات الشخصية بنجاح!")
+            return redirect('profile')
+    else:
+        form = UserProfileForm(instance=request.user)
+
+    orders = request.user.sales_orders.order_by('-created_at')[:5]
+
+    return render(request, 'pharmacy/profile.html', {
+        'form': form,
+        'orders': orders
+    })
 
 
 def register_view(request):

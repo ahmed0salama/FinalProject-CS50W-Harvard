@@ -1,0 +1,150 @@
+{% extends "pharmacy/layout.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Profile" %} - Pharmacy ERP{% endblock %}
+
+{% block body %}
+<div class="container my-4">
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 text-center p-4">
+                <div class="mb-3">
+                    <i class="bi bi-person-circle display-1 text-primary"></i>
+                </div>
+                <h4 class="fw-bold mb-1">{{ user.get_full_name|default:user.username }}</h4>
+                <p class="text-muted mb-2">@{{ user.username }}</p>
+                <span class="badge bg-secondary mb-3">{{ user.get_role_display }}</span>
+
+                <div class="border-top pt-3 text-start">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-bold">{% trans "Remaining / Credit Balance" %}:</span>
+                        <span class="badge bg-danger fs-6">${{ user.balance }}</span>
+                    </div>
+                    <small class="text-muted d-block">* الرصيد المتبقي المستحق عليك في الصيدلية.</small>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-8">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show mb-3" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                    <span class="fw-bold"><i class="bi bi-person-vcard me-2"></i>{% trans "Personal information" %}</span>
+                    <button class="btn btn-outline-light btn-sm fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#editProfileSection" aria-expanded="false" aria-controls="editProfileSection">
+                        <i class="bi bi-pencil-square me-1"></i> {% trans "Edit profile" %}
+                    </button>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="text-muted small d-block">{% trans "First Name" %}</label>
+                            <span class="fw-bold fs-6">{{ user.first_name|default:"-" }}</span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-muted small d-block">{% trans "Last Name" %}</label>
+                            <span class="fw-bold fs-6">{{ user.last_name|default:"-" }}</span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-muted small d-block">{% trans "Email" %}</label>
+                            <span class="fw-bold fs-6">{{ user.email|default:"-" }}</span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-muted small d-block">{% trans "Phone Number" %}</label>
+                            <span class="fw-bold fs-6">{{ user.phone_number|default:"-" }}</span>
+                        </div>
+                        <div class="col-12">
+                            <label class="text-muted small d-block">{% trans "Address" %}</label>
+                            <span class="fw-bold fs-6">{{ user.address|default:"-" }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="collapse mb-4" id="editProfileSection">
+                <div class="card shadow-sm border-0 border-start border-4 border-primary">
+                    <div class="card-header bg-light fw-bold text-primary">
+                        <i class="bi bi-gear me-2"></i>{% trans "Edit profile" %}
+                    </div>
+                    <div class="card-body p-4">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">{% trans "First Name" %}</label>
+                                    {{ form.first_name }}
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">{% trans "Last Name" %}</label>
+                                    {{ form.last_name }}
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">{% trans "Email" %}</label>
+                                    {{ form.email }}
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">{% trans "Phone Number" %}</label>
+                                    {{ form.phone_number }}
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label fw-bold">{% trans "Address" %}</label>
+                                    {{ form.address }}
+                                </div>
+                            </div>
+
+                            <div class="mt-4 d-flex justify-content-end gap-2">
+                                <button type="button" class="btn btn-secondary" data-bs-toggle="collapse" data-bs-target="#editProfileSection">{% trans "Cancel" %}</button>
+                                <button type="submit" class="btn btn-primary px-4 fw-bold">
+                                    <i class="bi bi-save me-1"></i> {%trans "Save changes" %}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            
+            {% if orders %}
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-light fw-bold">{% trans "Recent orders" %}</div>
+                <div class="card-body p-0">
+                    <table class="table align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>{% trans "# Invoice" %}</th>
+                                <th>{% trans "Total" %}</th>
+                                <th>{% trans "Paid" %}</th>
+                                <th>{% trans "Remaining" %}</th>
+                                <th>{% trans "Date" %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for o in orders %}
+                            <tr>
+                                <td>#SO-{{ o.id }}</td>
+                                <td>${{ o.total_amount }}</td>
+                                <td>${{ o.amount_paid }}</td>
+                                <td class="text-danger fw-bold">${{ o.remaining_balance }}</td>
+                                <td><small class="text-muted">{{ o.created_at|date:"Y-m-d" }}</small></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

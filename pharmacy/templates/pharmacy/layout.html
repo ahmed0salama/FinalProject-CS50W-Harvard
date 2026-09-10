@@ -36,7 +36,7 @@
                 <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
                     {% if user.is_authenticated %}
                     <li><h6 class="dropdown-header text-primary fw-bold">{{ user.username }}</h6></li>
-                    <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>{% trans "Profile" %}</a></li>
+                    <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="bi bi-person me-2"></i>{% trans "Profile" %}</a></li>
                     {% else %}
                     <li><a class="dropdown-item" href="{% url 'login' %}"><i class="bi bi-box-arrow-in-right me-2"></i>{% trans "Login" %}</a></li>
                     <li><a class="dropdown-item" href="{% url 'register' %}"><i class="bi bi-person-plus me-2"></i>{% trans "Register" %}</a></li>
