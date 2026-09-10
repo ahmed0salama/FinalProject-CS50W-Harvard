@@ -121,6 +121,7 @@ body {
 
 #productsGrid {
     min-width: 0;
+    padding: 0px 10px;
 }
 
 #productsGrid .product-card {
